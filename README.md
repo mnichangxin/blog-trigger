@@ -1,3 +1,3 @@
-# Vue-blog-trigger
+# blog-trigger
 
-A trigger to post message.
+Blog trigger for post message.
