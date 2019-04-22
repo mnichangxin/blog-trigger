@@ -2,18 +2,15 @@ import os, codecs
 import markdown
 
 def mdFile2Text(path):
-    f = codecs.open(os.path.dirname(__file__) + '../posts/test.md', mode='r', encoding='utf-8')
+    f = codecs.open(path, mode='r', encoding='utf-8')
     text = f.read()
     f.close()
     return text
 
 def mdText2html(text):
-    f = codecs.open(os.path.dirname(__file__) + '../posts/test.md', mode='r', encoding='utf-8')
-    text = f.read()
-    f.close()
+    return markdown.markdown(text, extensions=['meta'], output_format='html5')
 
-    html = markdown.markdown(text, extensions=['meta'], output_format='html5')
-
+if __name__ == '__main__':
+    text = mdFile2Text(os.path.realpath('./posts/test.md'))
+    html = mdText2html(text)
     print(html)
-
-    return html
