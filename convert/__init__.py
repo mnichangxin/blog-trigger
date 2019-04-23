@@ -11,6 +11,6 @@ def mdText2html(text):
     return markdown.markdown(text, extensions=['meta'], output_format='html5')
 
 if __name__ == '__main__':
-    text = mdFile2Text(os.path.realpath('./posts/test.md'))
+    text = mdFile2Text(os.path.abspath('./posts/test.md'))
     html = mdText2html(text)
     print(html)
