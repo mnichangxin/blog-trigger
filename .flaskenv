@@ -1,0 +1,2 @@
+FLASK_APP=trigger
+FLASK_ENV=development
