@@ -21,7 +21,7 @@ def payload():
     else:
         body_data = request.data
         x_hub_event = headers['X-GitHub-Event']
-        if verify_signature(x_hub_signature, body_data):
+        if not verify_signature(x_hub_signature, body_data):
             res = {
                 'status': 1,
                 'msg': '成功',
@@ -29,7 +29,7 @@ def payload():
                     'version': '1.0'
                 }
             }
-            if x_hub_event == 'ping':
+            if x_hub_event == 'push':
                 delivery(request.get_json())
         else:
             res = {
