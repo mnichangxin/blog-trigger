@@ -1,7 +1,4 @@
-import os, filecmp, re
-
-def compareFile(f1, f2):
-    return filecmp.cmp(f1, f2)
+import os, re
 
 def matchPosts(posts):
     matchPosts = []
