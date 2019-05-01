@@ -1,22 +1,41 @@
-import os, codecs
+import os, codecs, copy
 import markdown
 
-def mdFile2Text(path):
+def getMdMeta(md):
+    return md.Meta
+
+def getMdContent(md, md_text):
+    return md.convert(md_text)
+
+def mergeMdObject(md_meta, md_content):
+    md_obj = {}
+    md_meta = copy.deepcopy(md_meta)
+    for i in md_meta:
+        if len(md_meta[i]) > 1:
+            md_obj[i] = md_meta[i]
+        else:
+            md_obj[i] = md_meta[i][0]
+    md_obj['content'] = md_content
+    return md_obj
+
+def mdFile2MdText(path):
     f = codecs.open(path, mode='r', encoding='utf-8')
-    text = f.read()
+    md_text = f.read()
     f.close()
-    return text
+    return md_text
 
-def mdText2html(text):
-    return markdown.markdown(text, extensions=['meta'], output_format='html5')
+def mdText2MdObject(md_text):
+    md = markdown.Markdown(extensions=['meta'], output_format='html5')
+    md_content = getMdContent(md, md_text)
+    md_meta = getMdMeta(md)
+    md_obj = mergeMdObject(md_meta, md_content)
+    return md_obj
 
-def convertMd(hostname):
+def convertMd(name):
     PREFIX_URL = './posts'
-    text = mdFile2Text(os.path.abspath('{}/{}.md'.format(PREFIX_URL, hostname)))
-    html = mdText2html(text)
-    return html
+    md_text = mdFile2MdText(os.path.abspath('{}/{}.md'.format(PREFIX_URL, name)))
+    obj = mdText2MdObject(md_text)
+    return obj
 
 if __name__ == '__main__':
-    text = mdFile2Text(os.path.abspath('./posts/test.md'))
-    html = mdText2html(text)
-    print(html)
+    print(convertMd('test'))

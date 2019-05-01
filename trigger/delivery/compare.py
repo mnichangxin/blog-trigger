@@ -1,26 +1,26 @@
 import os, re
 
-def matchPosts(posts):
-    matchPosts = []
+def getMatchPosts(posts):
+    match_posts = []
     for i in range(len(posts)):
         match = re.match(r'posts/(.*?).md', posts[i])
-        match and matchPosts.append(match.group(1))
-    return matchPosts
+        match and match_posts.append(match.group(1))
+    return match_posts
 
 def compareCommits(commits):
-    finalCommits = {}
+    final_commits = {}
     for i in range(len(commits)):
         commit = commits[i]
-        added, removed, modified = matchPosts(commit['added']), matchPosts(commit['removed']), matchPosts(commit['modified'])
+        added, removed, modified = getMatchPosts(commit['added']), getMatchPosts(commit['removed']), getMatchPosts(commit['modified'])
         for j in range(len(added)):
-            finalCommits[added[j]] = 'ADDED'
+            final_commits[added[j]] = 'ADDED'
         for k in range(len(removed)):
-            del finalCommits[removed[k]]
+            del final_commits[removed[k]]
         for l in range(len(modified)):
-            if finalCommits.get(modified[l], None) != 'ADDED':
-                finalCommits[modified[l]] = 'MODIFIED'
+            if final_commits.get(modified[l], None) != 'ADDED':
+                final_commits[modified[l]] = 'MODIFIED'
 
-    return finalCommits
+    return final_commits
 
 if __name__ == '__main__':
     commits = [{
@@ -34,5 +34,5 @@ if __name__ == '__main__':
             "trigger/delivery/pull.py"
         ]
     }]
-    finalCommits = compareCommits(commits)
-    print(finalCommits)
+    final_commits = compareCommits(commits)
+    print(final_commits)
