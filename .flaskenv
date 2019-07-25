@@ -1,2 +1,2 @@
-FLASK_APP=trigger
+FLASK_APP=server
 FLASK_ENV=development
